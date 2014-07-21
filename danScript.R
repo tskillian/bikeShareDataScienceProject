@@ -40,16 +40,19 @@ data$percentBikes <- data$nbBikes / data$total
 data$percentDocks <- data$nbEmptyDocks / data$total
 
 ## Put in weekdays and round times to half-hour
-systemdata17July800$day <- weekdays(as.Date(systemdata17July800$date))
+data$day <- weekdays(as.Date(data$date))
 
-systemdata17July800$halfhour <- as.POSIXlt(round(as.double(systemdata17July800$date)/(30*60))*(30*60),origin="1970-01-01")
+data$halfhour <- as.POSIXlt(round(as.double(data$date)/(30*60))*(30*60),origin="1970-01-01")
 
-as.character(format(systemdata17July800$halfhour,"%H:%M"))
+as.character(format(data$halfhour,"%H:%M"))
 
-systemdata17July800$hour <- as.POSIXlt(round(as.double(systemdata17July800$date)/(60*60))*(60*60),origin="1970-01-01")
+data$hour <- as.POSIXlt(round(as.double(data$date)/(60*60))*(60*60),origin="1970-01-01")
 
-as.character(format(systemdata17July800$hour,"%H:%M"))
+as.character(format(data$hour,"%H:%M"))
 
 
-## Save file for later aggregation
+## Save files for later aggregation
+## individual CSV for this data pull
 write.csv(data,file=paste(dateTime, ".csv", sep=""))
+## append to master CSV file
+write.table(data, file="aggData/dataStarting7-21-2014.csv", sep=",", col.names=FALSE, append=TRUE)
